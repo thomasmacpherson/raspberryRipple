@@ -15,9 +15,9 @@ import pifacedigitalio as p	# piface library
 
 
 import sys, pygame
-import pipassport
+#import pipassport
 
-API_KEY = 'e06c2808-6a3e-45f9-9bec-fd5cfbe6252d'
+#API_KEY = 'e06c2808-6a3e-45f9-9bec-fd5cfbe6252d'
 
 
 pygame.init()
@@ -55,8 +55,13 @@ for i in range(8):
 for i in range(8):
 	leds.append(pfd2.leds[i])
 
-scanText = font2.render("Scan your card", 1, (200, 10, 10))
-scanText = pygame.transform.rotate(scanText,-90)
+#scanText = font2.render("Scan your card", 1, (200, 10, 10))
+#scanText = pygame.transform.rotate(scanText,-90)
+
+pressText = font2.render("Press to start", 1, (200, 10, 10))
+pressText = pygame.transform.rotate(pressText,-90)
+
+
 welcomeText = font2.render("Welcome", 1, (200, 10, 10))
 welcomeText = pygame.transform.rotate(welcomeText,-90)
 yourscoreText = font2.render("Your score was", 1, (200, 10, 10))
@@ -103,28 +108,33 @@ colours = ["Red","Green","Blue","Yellow","White"]	# colour list for printing to 
 while True:
 	check_for_quit()
 	screen.fill(black)
-	screen.blit(scanText, (width/2-scanText.get_width()/2,height/2-scanText.get_height()/2))
+	screen.blit(pressText, (width/2-pressText.get_width()/2,height/2-pressText.get_height()/2))
 	pygame.display.flip()
+	leds[3].turn_on()
 	while True:
 		check_for_quit()
-		cardid = pipassport.get_card_id()
-		print("cardid {}".format(cardid))
-		userinfo = pipassport.request_user_info(API_KEY, cardid)
-		print("userinfo {}".format(userinfo))
+		#cardid = pipassport.get_card_id()
+		#print("cardid {}".format(cardid))
+		#userinfo = pipassport.request_user_info(API_KEY, cardid)
+		#print("userinfo {}".format(userinfo))
 
-		if not pipassport.card_valid(userinfo):
-			print("Invalid card!")
+		#if not pipassport.card_valid(userinfo):
+		#
+		input1 = pfd.input_port.value # see if any buttons have been hit	print("Invalid card!")
+		if input1:
 			
-		else:
+			break	
+		#else:
 			break
-		sleep(1)
+		sleep(.2)
 	print("done")
+	leds[3].turn_off()
 	
 	screen.fill(black)
 	screen.blit(welcomeText, (width/2-welcomeText.get_width()/2,height/2-welcomeText.get_height()/2))
-	userText = font2.render(cardid, 1, (200, 10, 10))
-	userText = pygame.transform.rotate(userText,-90)
-	screen.blit(userText, (width/2+welcomeText.get_width()/2,height/2-welcomeText.get_height()/2))
+	#userText = font2.render(cardid, 1, (200, 10, 10))
+	#userText = pygame.transform.rotate(userText,-90)
+	#screen.blit(userText, (width/2+welcomeText.get_width()/2,height/2-welcomeText.get_height()/2))
 	pygame.display.flip()
 	sleep(2)
 	current = next_colour() 			# create first random colour to be lit
@@ -234,9 +244,9 @@ while True:
 	pygame.display.flip()
 	sleep(5)
 
-	pipassport.post_transaction(API_KEY, cardid, score)
-	print("Sent transaction for {} {}".format(userinfo['first_name'],
-                                                      userinfo['last_name']))
+	#pipassport.post_transaction(API_KEY, cardid, score)
+	#print("Sent transaction for {} {}".format(userinfo['first_name'],
+                                                     # userinfo['last_name']))
 p.deinit()					# close the pfio
 	
 

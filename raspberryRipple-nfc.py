@@ -24,7 +24,7 @@ pygame.init()
 size = width,height = 900,700
 black = 0,0,0
 
-screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+screen = pygame.display.set_mode(size)#, pygame.FULLSCREEN)
 rasp = pygame.image.load("Raspi_Colour_R.png")
 raspberry = pygame.transform.scale(rasp,size)
 rect = raspberry.get_rect()
@@ -121,8 +121,11 @@ while True:
 	print("done")
 	
 	screen.fill(black)
+	first_name = userinfo['first_name']
+	second_name =  userinfo['last_name']
 	screen.blit(welcomeText, (width/2-welcomeText.get_width()/2,height/2-welcomeText.get_height()/2))
-	userText = font2.render(cardid, 1, (200, 10, 10))
+
+	userText = font2.render("{}{}".format(first_name, second_name), 1, (200, 10, 10))
 	userText = pygame.transform.rotate(userText,-90)
 	screen.blit(userText, (width/2+welcomeText.get_width()/2,height/2-welcomeText.get_height()/2))
 	pygame.display.flip()
